@@ -1,54 +1,118 @@
-import { useCallback } from "react"
-import { Button } from "react-bootstrap"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro"
+import { ChangeEvent, useState } from "react"
+import { Button, Col, Container, Form } from "react-bootstrap"
+import { v4 as uuidv4 } from "uuid"
+
+const party: PartyMember[] = [
+  {
+    id: uuidv4(),
+    name: "Detlef",
+    level: 1,
+  },
+  {
+    id: uuidv4(),
+    name: "Dieter",
+    level: 2,
+  },
+]
 
 export type PartyMember = {
+  id: string
   name?: string
   level?: number
   ac?: number
   pp?: number
 }
 
-type PartyProps = {
-  party: PartyMember[]
-  onPartyStateAdd: (item: PartyMember) => void
-  onPartyStateItemChange: (i: number, item: PartyMember) => void
-  onPartyStateRemove: (i: number) => void
-}
+export default function Party() {
+  const [partyState, setPartyState] = useState(party)
 
-export default function Party({
-  party,
-  onPartyStateAdd,
-  onPartyStateItemChange,
-  onPartyStateRemove,
-}: PartyProps) {
-  const handlePartyStateAdd = () => {
-    console.log("blub")
-    onPartyStateAdd({})
+  function handlePartyAdd() {
+    setPartyState(partyState.concat({ id: uuidv4() }))
   }
 
-  const partyMemberRows = party.map((member: PartyMember, index: number) => (
-    <form className="row" key={index}>
-      <input
-        type="text"
-        placeholder="Name"
-        className="col"
-        value={member.name}
-      />
-      <input
-        type="text"
-        placeholder="Level"
-        className="col"
-        value={member.level}
-      />
-      <input type="text" placeholder="AC" className="col" value={member.ac} />
-      <input type="text" placeholder="PP" className="col" value={member.pp} />
-      <Button className="col">Remove</Button>
-    </form>
+  function handlePartyClear() {
+    setPartyState([])
+  }
+
+  function handlePartyRemove(id: string) {
+    return () => {
+      setPartyState(partyState.filter((item) => item.id !== id))
+    }
+  }
+
+  function handlePartyItemChange(id: string) {
+    return (e: ChangeEvent) => {
+      const target = e.target as HTMLInputElement
+      const newState = partyState.map((item) => {
+        if (item.id !== id) return item
+        else return { ...item, [target.name]: target.value }
+      })
+      setPartyState(newState)
+    }
+  }
+
+  const partyMemberRows = partyState.map((member: PartyMember) => (
+    <Form className="row gx-2 mb-2" key={member.id}>
+      <Col>
+        <Form.Control
+          type="text"
+          placeholder="Name"
+          name="name"
+          value={member.name || ""}
+          onChange={handlePartyItemChange(member.id)}
+        />
+      </Col>
+      <Col>
+        <Form.Control
+          type="number"
+          placeholder="Level"
+          name="level"
+          value={member.level || ""}
+          onChange={handlePartyItemChange(member.id)}
+        />
+      </Col>
+      <Col>
+        <Form.Control
+          type="number"
+          placeholder="AC"
+          name="ac"
+          value={member.ac || ""}
+          onChange={handlePartyItemChange(member.id)}
+        />
+      </Col>
+      <Col>
+        <Form.Control
+          type="number"
+          placeholder="PP"
+          name="pp"
+          value={member.pp || ""}
+          onChange={handlePartyItemChange(member.id)}
+        />
+      </Col>
+      <Button
+        className="col-auto"
+        onClick={handlePartyRemove(member.id)}
+        title="Remove"
+        variant="outline-danger"
+      >
+        <FontAwesomeIcon icon={solid("xmark")}></FontAwesomeIcon>
+      </Button>
+    </Form>
   ))
   return (
     <>
-      {partyMemberRows}
-      <Button onClick={handlePartyStateAdd}>Add</Button>
+      <Container className="mt-2">
+        {partyMemberRows}
+        <Button onClick={handlePartyAdd} className="mt-2">
+          <FontAwesomeIcon
+            icon={solid("user-plus")}
+            className="me-2"
+          ></FontAwesomeIcon>
+          Add new party member
+        </Button>
+      </Container>
     </>
   )
 }
