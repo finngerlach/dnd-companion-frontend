@@ -1,9 +1,12 @@
 {
   "presets": [
     "@babel/preset-env",
-    ["@babel/preset-react", {
-      "runtime": "automatic" // enable injection of: import React from 'react'
-      }],
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic" // enable injection of: import React from 'react'
+      }
+    ],
     "@babel/preset-typescript"
   ]
 }
