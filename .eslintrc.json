@@ -24,7 +24,12 @@
       2,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
-    "import/extensions": [2, { "tsx": "never" }]
+    "import/extensions": [2, { "tsx": "never" }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_" }
+    ]
   },
   "root": true,
   "overrides": [

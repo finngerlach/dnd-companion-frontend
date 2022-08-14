@@ -10,13 +10,16 @@ module.exports = {
   entry: "./src/index.tsx",
   output: {
     filename: "main.js",
-    path: path.join(__dirname, "dist/")
+    path: path.join(__dirname, "dist/"),
+    publicPath: "/"
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"] // Resolve file extensions so they can be omitted on imports
   },
   devServer: {
-    hot: true
+    hot: true,
+    historyApiFallback: true,
+    https: true
   },
   module: {
     rules: [

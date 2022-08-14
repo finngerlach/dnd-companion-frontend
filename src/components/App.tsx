@@ -1,27 +1,18 @@
-import { useEffect, useState } from "react"
-import IndividualApi from "../api/IndividualApi"
-import Individual from "../types/Individual"
+import { Routes, Route } from "react-router-dom"
+import IndividualCreate from "./IndividualCreate"
+import IndividualEntry from "./IndividualEntry"
+import IndividualList from "./IndividualList"
+import LandingPage from "./LandingPage"
 
 export default function App() {
-  const [individualList, setIndividualList] = useState<Individual[]>([])
-
-  useEffect(() => {
-    IndividualApi.index().then((response) => {
-      setIndividualList(response.data)
-    })
-  })
   return (
-    <>
-      <h1 className='text-3xl font-bold underline'>React!</h1>
-      <ul>
-        {individualList &&
-          individualList.map((individual) => (
-            <li key={individual.id}>{individual.name}</li>
-          ))}
-      </ul>
-      <button type='button' className='rounded-full'>
-        Test
-      </button>
-    </>
+    <Routes>
+      <Route path='/' element={<LandingPage />} />
+      <Route path='/individuals' element={<IndividualList />} />
+      <Route path='/individuals/create' element={<IndividualCreate />} />
+      <Route path='/individuals/:id' element={<IndividualEntry />} />
+      {/** <Route path='/location' element={<LocationList />} />
+      <Route path='/location/:id' element={<LocationEntry />} /> */}
+    </Routes>
   )
 }
