@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-2xl mb-2;
+  }
+
+  h2 {
+    @apply text-xl mb-2;
+  }
+
+  p {
+    @apply mb-2;
+  }
+
+  a {
+    @apply text-secondary underline;
+  }
+}

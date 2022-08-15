@@ -43,12 +43,13 @@ export default function Table<T>({
                 key={`${(object as any)[rowKey]}${key}`}
                 className='px-6 py-4 text-left'
               >
-                {linkData && linkData.linkPlacementKey === key && (
+                {linkData && linkData.linkPlacementKey === key ? (
                   <Link to={linkData.linkBuilder(object)}>
                     {(object as any)[key]}
                   </Link>
+                ) : (
+                  (object as any)[key]
                 )}
-                {(object as any)[key]}
               </td>
             ))}
           </tr>

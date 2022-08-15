@@ -16,7 +16,7 @@ export default function Button({ children, className, onClick }: Props) {
     <button
       type='button'
       onClick={onClick}
-      className={`rounded-full py-2 px-4 font-semibold bg-cyan-500 text-white ${className}`}
+      className={`rounded-full py-2 px-4 font-semibold bg-primary text-white ${className}`}
     >
       {children}
     </button>
